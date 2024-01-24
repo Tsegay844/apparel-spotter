@@ -25,7 +25,13 @@ public class MainCommands {
         Auth auth = context.getBean(Auth.class);
 
         // Output a success message
-        System.out.println("Application started successfully.");
+        System.out.println("\u001B[0m********************************************\u001B[0m");
+        System.out.println("  \u001B[0mApplication started successfully.\u001B[0m");
+        System.out.println("\u001B[0m********************************************\u001B[0m");
+        System.out.println("\u001B[0m*                                          *\u001B[0m");
+        System.out.println("*      \u001B[1;32mWelCome to ApparelSpotter\u001B[0m           *");
+        System.out.println("\u001B[0m*                                          *\u001B[0m");
+        System.out.println("\u001B[0m********************************************\u001B[0m");
         // Perform the Auth action
         auth.performAction();
 

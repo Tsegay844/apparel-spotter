@@ -1,10 +1,12 @@
 package it.unipi.apparelspotter.apparel.commands;
-
 import it.unipi.apparelspotter.apparel.Service.AuthService;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
 import it.unipi.apparelspotter.apparel.model.mongo.CustomerMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
 
@@ -16,76 +18,45 @@ import java.util.Scanner;
 public class Auth {
 
     private final CustomerService customerService;
-    private final CustomerPage customerPage;
-   private final RetailerPage retailerPage;
+    private CustomerPage customerPage;
+
+    @Autowired
+    public void setCustomerPage(CustomerPage customerPage) {
+        this.customerPage = customerPage;
+    }
+
+   private RetailerPage retailerPage;
     private final AuthService authService;
     private final Scanner scanner;
 
     @Autowired
-    public Auth(AuthService authService, CustomerService customerService, CustomerPage customerPage, RetailerPage retailerPage) {
+    public Auth(AuthService authService, CustomerService customerService, @Lazy RetailerPage retailerPage) {
         this.authService = authService;
         this.customerService = customerService;
-        this.customerPage = customerPage;
        this.retailerPage= retailerPage;
         this.scanner = new Scanner(System.in);
     }
 
+
     public void performAction() {
-        System.out.println("Action performed!");
         firstCommand();
         int command =1;
         do {
             try {
-                /*System.out.println("1. getAllMongoCustomers ");
-                System.out.println("2. getMongoCustomerById");
-                System.out.println("3. getAllNeo4jCustomers");
-                System.out.println("4. getNeo4jCustomerById");*/
-                System.out.println("1. back");
-                System.out.println("0. Exit");
-                System.out.print("Enter your choice (0 to exit): ");
 
+                System.out.print("Enter your choice (1 to Log-out, 0 to exit): ");
                 command = scanner.nextInt();
                 scanner.nextLine(); // Consume the newline
-
                 switch (command) {
-                    case 5:
-                        customerService.getAllMongoCustomers().forEach(System.out::println);
-                        break;
-
-                    case 2:
-                        System.out.print("Enter Id: ");
-                        String customerId = scanner.nextLine();
-                        Optional<CustomerMongo> customerOptional = customerService.getMongoCustomerById(customerId);
-                        customerOptional.ifPresentOrElse(
-                                customer -> System.out.println("Customer Name: " + customer.getFirstName() + " " + customer.getLastName()),
-                                () -> System.out.println("Customer not found.")
-                        );
-                        break;
-
-                    case 3:
-                        customerService.getAllNeo4jCustomers().forEach(System.out::println);
-                        break;
-
-                    case 4:
-                        System.out.print("Enter Id: ");
-                        String id = scanner.nextLine();
-                        // Assuming there is a similar method for Neo4j customers
-                        Optional<CustomerMongo> neoCustomerOptional = customerService.getMongoCustomerById(id);
-                        neoCustomerOptional.ifPresentOrElse(
-                                customer -> System.out.println("Customer Name: " + customer.getFirstName() + " " + customer.getLastName()),
-                                () -> System.out.println("Customer not found.")
-                        );
-                        break;
-
                     case 0:
                         System.out.println("Exiting application...");
                         break;
                     case 1:
                         performAction();
                         break;
-
                     default:
                         System.out.println("Unknown command");
+                        performAction();
                         break;
                 }
             } catch (InputMismatchException e) {
@@ -95,8 +66,10 @@ public class Auth {
             }
         } while (command != 0);
     }
-
     public void firstCommand() {
+        System.out.println();
+        System.out.println("\u001B[1mHome Page\u001B[0m");
+        System.out.println("**************************************");
         System.out.println("1. Login");
         System.out.println("2. Sign Up");
         System.out.println("0. Exit");
@@ -105,6 +78,9 @@ public class Auth {
         scanner.nextLine(); // Consume the newline character
         switch (choice) {
             case 1:
+                System.out.println();
+                System.out.println("\u001B[1mLog-in page\u001B[0m");
+                System.out.println("**************************************");
                 System.out.print("Enter email: ");
                 String email = scanner.nextLine();
                 System.out.print("Enter password: ");
@@ -139,15 +115,19 @@ public class Auth {
                 }
                 break;
             case 2:
-                // Sign-up logic here, assuming a method exists for it
-                System.out.println("Sign-up process would be here.");
+                System.out.println();
+                System.out.println("\u001B[1mSign-up process would be here.\u001B[0m");
+                System.out.println("*****************************************");
                 signup();
                 break;
             case 0:
-                System.out.println("Exiting application...");
+                System.out.println("Exiting the application...");
+                scanner.close(); // close the scanner before exiting
+                System.exit(0); // terminate the JVM
                 break;
             default:
-                System.out.println("Unknown command");
+                System.out.println("\u001B[31mWrong input\u001B[0m");
+                performAction();
                 break;
         }
 
@@ -156,36 +136,50 @@ public class Auth {
     public void signup(){
         System.out.println("1. Customer");
         System.out.println("2. Retailer");
-        System.out.println("3. Back to login");
+        System.out.println("3. Back to Home page");
+        System.out.println("0. Exit");
+        System.out.print("Enter your choice (0 to exit): ");
         int option;
         option=scanner.nextInt();
         scanner.nextLine();
-        System.out.print("Enter firstName: ");
-        String firstName = scanner.nextLine();
-        System.out.print("Enter lastName: ");
-        String lastName = scanner.nextLine();
-        System.out.print("Enter gender: ");
-        String gender = scanner.nextLine();
-        System.out.print("Enter contact: ");
-        int contact = scanner.nextInt();
-        scanner.nextLine();
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
-        if (option == 1) {
-            authService.customerSignup(firstName, lastName, gender, contact, email, password);
-
-        } else if (option==2) {
-            System.out.print("Enter Retailer Name: ");
-            String retairelName = scanner.nextLine();
-            authService.retailerSignup(firstName, lastName, gender, contact, email, password, retairelName);
-
-        } else if (option==3) {
+        if (option==0) {
+            System.out.println("Exiting the application...");
+            scanner.close();
+            System.exit(0);
+        }
+        else if (option==3) {
             performAction();
+        }
+        else if (option==1 || option==2) {
+            System.out.print("Enter firstName: ");
+            String firstName = scanner.nextLine();
+            System.out.print("Enter lastName: ");
+            String lastName = scanner.nextLine();
+            System.out.print("Enter gender: ");
+            String gender = scanner.nextLine();
+            System.out.print("Enter contact: ");
+            int contact = scanner.nextInt();
+            scanner.nextLine();
+            System.out.print("Enter email: ");
+            String email = scanner.nextLine();
+            System.out.print("Enter password: ");
+            String password = scanner.nextLine();
+            if (option == 1) {
+                authService.customerSignup(firstName, lastName, gender, contact, email, password);
+
+            } else if (option==2) {
+                System.out.print("Enter Retailer Name: ");
+                String retairelName = scanner.nextLine();
+                authService.retailerSignup(firstName, lastName, gender, contact, email, password, retairelName);
+
+            }
+        }
+        else {
+            System.out.println("\u001B[31mWrong input\u001B[0m");
+            signup();
+
 
         }
-
     }
 
 

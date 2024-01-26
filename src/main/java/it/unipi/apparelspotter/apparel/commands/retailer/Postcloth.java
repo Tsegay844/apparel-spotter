@@ -1,6 +1,7 @@
-package it.unipi.apparelspotter.apparel.commands;
+package it.unipi.apparelspotter.apparel.commands.retailer;
 
 import it.unipi.apparelspotter.apparel.Service.ClothService;
+import it.unipi.apparelspotter.apparel.commands.customer.CustomerPage;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

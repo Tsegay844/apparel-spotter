@@ -1,9 +1,8 @@
 package it.unipi.apparelspotter.apparel;
 
-import it.unipi.apparelspotter.apparel.Service.AuthService;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
 import it.unipi.apparelspotter.apparel.commands.Auth;
-import it.unipi.apparelspotter.apparel.commands.CustomerPage;
+import it.unipi.apparelspotter.apparel.commands.customer.CustomerPage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

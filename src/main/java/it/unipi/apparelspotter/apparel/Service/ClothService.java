@@ -8,15 +8,15 @@ import it.unipi.apparelspotter.apparel.model.mongo.ClothMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerAverageRating;
 import it.unipi.apparelspotter.apparel.model.neo4j.ClothNeo4j;
 import it.unipi.apparelspotter.apparel.model.neo4j.RetailerNeo4j;
+import it.unipi.apparelspotter.apparel.model.neo4j.TopLikedClothOfRetailer;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+
+import java.security.PublicKey;
+import java.util.*;
 
 @Service
 public class ClothService {
@@ -80,6 +80,16 @@ public class ClothService {
     public List<CategoryCount> getClothsCountByCategoryForLoggedInRetailer(String retailerId) {
         return clothMongoRepository.countClothsByCategoryForRetailer(retailerId);
     }
+    public List<TopLikedClothOfRetailer> getTop5ClothsByLikesForRetailer(String retailerId) {
+
+        return clothNeo4jRepository.findTop5ClothsByLikesForRetailer(retailerId);}
+    public Integer getTotalLikesForRetailer(String retailerId) {
+        return clothNeo4jRepository.countTotalLikesByRetailer(retailerId);
+    }
+    public  Integer getToltalFollowersForRetailer(String retailerId){
+               return clothNeo4jRepository.countTotalFollowersByRetailer(retailerId);
+    }
+
 }
 
 

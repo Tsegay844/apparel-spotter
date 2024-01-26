@@ -2,18 +2,15 @@ package it.unipi.apparelspotter.apparel.commands;
 import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Service.AuthService;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
+import it.unipi.apparelspotter.apparel.commands.customer.CustomerPage;
+import it.unipi.apparelspotter.apparel.commands.retailer.RetailerPage;
 import it.unipi.apparelspotter.apparel.model.mongo.CustomerMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
-import jakarta.annotation.PostConstruct;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
 
 import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 

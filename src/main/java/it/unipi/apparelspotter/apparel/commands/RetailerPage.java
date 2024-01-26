@@ -11,13 +11,17 @@ import java.util.Scanner;
 public class RetailerPage {
     private final CustomerService customerService;
     private final AuthService authService;
+    private final Postcloth postcloth;
+    private final Statistics statistics;
     private final Scanner scanner;
     private Auth auth;
 
     @Autowired
-    public RetailerPage(AuthService authService, @Lazy Auth auth, CustomerPage customerPage, CustomerService customerService) {
+    public RetailerPage(@Lazy Statistics statistics, AuthService authService, @Lazy Auth auth,Postcloth postcloth, CustomerPage customerPage, CustomerService customerService) {
         this.authService = authService;
+        this.statistics=statistics;
         this.customerService = customerService;
+        this.postcloth=postcloth;
         this.auth=auth;
         this.scanner = new Scanner(System.in);
     }
@@ -68,10 +72,17 @@ public class RetailerPage {
     public void  postCloth(){
         System.out.println("\u001B[1mPosting page\u001B[0m");
         System.out.println("**************************************");
+        postcloth.postCloth();
     }
     public void  statistics(){
         System.out.println("\u001B[1mStatistics\u001B[0m");
         System.out.println("**************************************");
+        statistics.numberOfCloths();
+        System.out.println();
+        statistics.printClothsCountByCategory();
+        statistics.averageRating();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
     }
     public void  listOfYourCloths(){
         System.out.println("\u001B[1mStatistics\u001B[0m");

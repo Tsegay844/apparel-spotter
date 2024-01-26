@@ -14,56 +14,29 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClothNeo4j {
-
     @Id
-    @GeneratedValue(generatorClass = UUIDStringGenerator.class)
-    private String id;
-
-
-    // The externalId is assumed to be an identifier from an external database (like MongoDB)
     @Property("_id")
     private String mongoId;
+    // This defines that each cloth is posted by one retailer only
+    @Relationship(type = "POSTED_BY", direction = Relationship.Direction.OUTGOING)
+    private RetailerNeo4j postedByRetailer;
 
-    @Property("Brand")
-    private String bran;
-    @Relationship(type = "REVIEW_OF", direction = Relationship.Direction.INCOMING)
-    private List<ReviewOf> reviews;
-
-    public String getBran() {
-        return bran;
+    public RetailerNeo4j getPostedByRetailer() {
+        return postedByRetailer;
     }
 
-    public void setBran(String bran) {
-        this.bran = bran;
-    }
-
-    public List<ReviewOf> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<ReviewOf> reviews) {
-        this.reviews = reviews;
-    }
-
-    // Constructor, getters, and setters
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setPostedByRetailer(RetailerNeo4j postedByRetailer) {
+        this.postedByRetailer = postedByRetailer;
     }
 
     public String getMongoId() {
         return mongoId;
     }
 
+
     public void setMongoId(String mongoId) {
         this.mongoId = mongoId;
     }
-
 
 
 

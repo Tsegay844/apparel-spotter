@@ -17,28 +17,29 @@ import java.util.List;
 public class ClothMongo {
     @Id
     private String id;
-
+    @Field("Category")
     private String Category;
+    @Field("Type")
     private String Type;
+    @Field("Size")
     private String Size;
+    @Field("item_name")
     private String item_name;
+    @Field("Brand")
     private String Brand;
+    @Field("price")
     private String price;
 
     @Field("Image url")
     private String imageUrl;
-
     @Field("Posted Date")
     private Date postedDate;
-
+    @Field("Reviews")
     private List<Review> Reviews;
-
+    @Field("retailer")
     private Retailer retailer;
-    private Customer customers;
 
     //Getter and Setter
-
-
     public String getId() {
         return id;
     }
@@ -127,23 +128,10 @@ public class ClothMongo {
         this.retailer = retailer;
     }
 
-    public Customer getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(Customer customers) {
-        this.customers = customers;
-    }
-
-
-
-
-
     public static class Review {
-        private int Rating;
-
         @Id
         private String id;
+        private int Rating;
 
         public int getRating() {
             return Rating;
@@ -161,13 +149,11 @@ public class ClothMongo {
             this.id = id;
         }
     }
-
-
     public static class Retailer {
         @Id
         private String id;
         private String retailerName;
-        private Location Location;
+        //private Location Location;
 
         public String getId() {
             return id;
@@ -185,63 +171,6 @@ public class ClothMongo {
             this.retailerName = retailerName;
         }
 
-        public ClothMongo.Location getLocation() {
-            return Location;
-        }
 
-        public void setLocation(ClothMongo.Location location) {
-            Location = location;
-        }
-
-        // Standard getters and setters
-    }
-
-
-    public static class Customer {
-        @Id
-        private String id;
-        private Location Location;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public ClothMongo.Location getLocation() {
-            return Location;
-        }
-
-        public void setLocation(ClothMongo.Location location) {
-            Location = location;
-        }
-
-
-    }
-
-
-    public static class Location {
-        private double Longitude;
-        private double Latitude;
-
-        public double getLongitude() {
-            return Longitude;
-        }
-
-        public void setLongitude(double longitude) {
-            Longitude = longitude;
-        }
-
-        public double getLatitude() {
-            return Latitude;
-        }
-
-        public void setLatitude(double latitude) {
-            Latitude = latitude;
-        }
-
-        // Standard getters and setters
     }
 }

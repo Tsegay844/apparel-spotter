@@ -38,3 +38,24 @@ public class sample {
                         break;
 */
 }
+
+
+
+
+//login
+  /*retailerOptional.ifPresentOrElse(
+                        retailer -> {
+                            String oldPassword = retailer.getPassword();
+                            if(oldPassword==password){
+                                customerPage.customerpage();
+                                System.out.println("newPassword: " + password);
+                                System.out.println("OldPassword: " + oldPassword);
+                            }
+                        },
+                        () -> {
+                            System.out.println("Retailer not found.");
+                        }
+                );*/
+
+// @Query("MATCH (retailer:Retailer) WHERE retailer._id = $retailerId RETURN retailer")
+//    Optional<RetailerNeo4j> findBy_Id(String retailerId);

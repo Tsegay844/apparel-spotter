@@ -1,9 +1,11 @@
 package it.unipi.apparelspotter.apparel.commands;
+import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Service.AuthService;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
 import it.unipi.apparelspotter.apparel.model.mongo.CustomerMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
 import jakarta.annotation.PostConstruct;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
 
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -36,17 +39,15 @@ public class Auth {
        this.retailerPage= retailerPage;
         this.scanner = new Scanner(System.in);
     }
-
-
+    //Home page Or log-in page starts from this method
     public void performAction() {
         firstCommand();
         int command =1;
         do {
             try {
-
                 System.out.print("Enter your choice (1 to Log-out, 0 to exit): ");
                 command = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline
+                scanner.nextLine();
                 switch (command) {
                     case 0:
                         System.out.println("Exiting application...");
@@ -62,10 +63,12 @@ public class Auth {
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
                 scanner.next();
-                performAction();// Consume the invalid input
+                performAction();
             }
         } while (command != 0);
     }
+
+    //********************LOG_IN****************************
     public void firstCommand() {
         System.out.println();
         System.out.println("\u001B[1mHome Page\u001B[0m");
@@ -75,7 +78,7 @@ public class Auth {
         System.out.println("0. Exit");
         System.out.print("Enter your choice (0 to exit): ");
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
         switch (choice) {
             case 1:
                 System.out.println();
@@ -86,45 +89,45 @@ public class Auth {
                 System.out.print("Enter password: ");
                 String password = scanner.nextLine();
 
-                Optional<CustomerMongo> customerOptional = authService.customerLogin(email, password);
-                Optional<RetailerMongo> retailerOptional1 = authService.retailerLogin(email);
-                /*retailerOptional.ifPresentOrElse(
-                        retailer -> {
-                            String oldPassword = retailer.getPassword();
-                            if(oldPassword==password){
-                                customerPage.customerpage();
-                                System.out.println("newPassword: " + password);
-                                System.out.println("OldPassword: " + oldPassword);
-                            }
-                        },
-                        () -> {
-                            System.out.println("Retailer not found.");
-                        }
-                );*/
+                Optional<CustomerMongo> customerOptional = authService.customerLogin(email, password);;
                 Optional<RetailerMongo> retailerOptional = authService.retailerLogin(email);
                 if (retailerOptional.isPresent()) {
                     System.out.println("Retailer login successful!");
+                    //String retailerId = retailerOptional.get().getId();
+                    //GlobalState.getInstance().setCurrentRetailerId(retailerId);
+                    // *****************Go to Retailer Page****************************
+                    RetailerMongo retailer = retailerOptional.get();
+                    String retailerId = retailer.getId();
+                    if (retailerId == null || retailerId.trim().isEmpty()) {
+                        throw new IllegalStateException("Retrieved retailer ID is null or empty.");
+                    }
+                    GlobalState.getInstance().setCurrentRetailerId(retailerId);
                     retailerPage.retailerPage();
-
                 }
                 else if (customerOptional.isPresent()) {
                     System.out.println("Customer login successful!");
+                    String customerId = customerOptional.get().getId();
+                    GlobalState.getInstance().setCurrentCustomerId(customerId);
+                    //*************Go to Customer Page**************
                    customerPage.customerpage();
                 } else {
                     System.out.println("Login failed. Invalid email or password.");
                 }
                 break;
+
             case 2:
                 System.out.println();
                 System.out.println("\u001B[1mSign-up process would be here.\u001B[0m");
                 System.out.println("*****************************************");
                 signup();
                 break;
+
             case 0:
                 System.out.println("Exiting the application...");
-                scanner.close(); // close the scanner before exiting
-                System.exit(0); // terminate the JVM
+                scanner.close();
+                System.exit(0);
                 break;
+
             default:
                 System.out.println("\u001B[31mWrong input\u001B[0m");
                 performAction();
@@ -132,7 +135,7 @@ public class Auth {
         }
 
     }
-
+//***********SIGN_UP***********************************
     public void signup(){
         System.out.println("1. Customer");
         System.out.println("2. Retailer");
@@ -177,13 +180,9 @@ public class Auth {
         else {
             System.out.println("\u001B[31mWrong input\u001B[0m");
             signup();
-
-
         }
     }
 
-
-    // Be sure to include proper closing and exception handling in your application
     public void close() {
         if (scanner != null) {
             scanner.close();

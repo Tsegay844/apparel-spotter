@@ -1,12 +1,9 @@
 package it.unipi.apparelspotter.apparel.model.neo4j;
 
+import org.springframework.data.neo4j.core.schema.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.support.UUIDStringGenerator;
 
 @Node("Review")
@@ -19,10 +16,19 @@ public class ReviewNeo4j {
     @GeneratedValue(generatorClass = UUIDStringGenerator.class)
     private String id;
 
-
-    // The externalId is assumed to be an identifier from an external database (like MongoDB)
     @Property("_id")
     private String mongoId;
+
+    @Property("Rating")
+    private String rating;
+
+    // Assuming that a Review can be written by only one Customer
+    @Relationship(type = "WRITTEN_BY", direction = Relationship.Direction.OUTGOING)
+    private CustomerNeo4j customer;
+
+    // Assuming that a Review can be about only one Cloth
+    @Relationship(type = "REVIEW_OF", direction = Relationship.Direction.OUTGOING)
+    private ClothNeo4j cloth;
 
     public String getId() {
         return id;
@@ -39,4 +45,30 @@ public class ReviewNeo4j {
     public void setMongoId(String mongoId) {
         this.mongoId = mongoId;
     }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public CustomerNeo4j getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerNeo4j customer) {
+        this.customer = customer;
+    }
+
+    public ClothNeo4j getCloth() {
+        return cloth;
+    }
+
+    public void setCloth(ClothNeo4j cloth) {
+        this.cloth = cloth;
+    }
+// Getters and setters for the new fields (if not using Lombok's @Data)
+    // ... existing getters and setters
 }

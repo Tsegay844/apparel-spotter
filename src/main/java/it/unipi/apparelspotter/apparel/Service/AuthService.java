@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public class AuthService {
     public static final String ANSI_YELLOW = "\u001B[33m";

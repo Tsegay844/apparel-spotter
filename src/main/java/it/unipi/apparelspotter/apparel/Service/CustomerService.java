@@ -21,7 +21,6 @@ public class CustomerService {
         this.customerMongoRepository = customerMongoRepository;
         this.customerNeo4jRepository = customerNeo4jRepository;
     }
-
     // MongoDB CRUD operations
     public List<CustomerMongo> getAllMongoCustomers() {
         return customerMongoRepository.findAll();

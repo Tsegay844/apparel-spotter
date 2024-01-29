@@ -1,6 +1,6 @@
 package it.unipi.apparelspotter.apparel.commands.retailer;
 
-import it.unipi.apparelspotter.apparel.Service.ClothService;
+import it.unipi.apparelspotter.apparel.Service.RetailerService;
 import it.unipi.apparelspotter.apparel.commands.customer.CustomerPage;
 import org.springframework.stereotype.Component;
 
@@ -10,11 +10,11 @@ import java.util.Scanner;
 @Component
 public class Postcloth {
     private final CustomerPage customerPage;
-    private  final ClothService clothService;
+    private  final RetailerService retailerService;
     private final Scanner scanner;
-    public Postcloth(CustomerPage customerPage, ClothService clothService){
+    public Postcloth(CustomerPage customerPage, RetailerService retailerService){
         this.customerPage=customerPage;
-        this.clothService=clothService;
+        this.retailerService = retailerService;
         this.scanner=new Scanner(System.in);
     }
     public void postCloth(){
@@ -33,8 +33,9 @@ public class Postcloth {
             System.out.print("Image Url: ");
             String imageUrl = scanner.nextLine();
             System.out.print("posted date ");
-            Date postedDate = new Date();
-            clothService.postCloth(category, type, size, brand, price, imageUrl, postedDate);
+            String postedDate = scanner.nextLine();
+
+            retailerService.postCloth(category, type, size, brand, price, imageUrl, postedDate);
         }
     }
 

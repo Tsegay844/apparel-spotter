@@ -1,11 +1,14 @@
 package it.unipi.apparelspotter.apparel.model.mongo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -33,13 +36,16 @@ public class ClothMongo {
     @Field("Image url")
     private String imageUrl;
     @Field("Posted Date")
-    private Date postedDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private String postedDate;
     @Field("Reviews")
     private List<Review> Reviews;
     @Field("retailer")
     private Retailer retailer;
 
     //Getter and Setter
+
+
     public String getId() {
         return id;
     }
@@ -104,11 +110,11 @@ public class ClothMongo {
         this.imageUrl = imageUrl;
     }
 
-    public Date getPostedDate() {
+    public String getPostedDate() {
         return postedDate;
     }
 
-    public void setPostedDate(Date postedDate) {
+    public void setPostedDate(String postedDate) {
         this.postedDate = postedDate;
     }
 

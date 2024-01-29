@@ -18,7 +18,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class RetailerMongo {
     @Id
     public String id;
-    @Field("RetailerName")
+    @Field("retailerName")
     public String retailerName;
     @Field("first_name")
     public String firstName;
@@ -26,12 +26,21 @@ public class RetailerMongo {
     public String lastName;
     public String gender;
     public String email;
-    @Field("Phone number")
+    @Field("Contact number")
     public String phoneNumber;
-    public String password;
-    @Field("longitude ")
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String password) {
+        Password = password;
+    }
+
+    public String Password;
+    @Field("Longitude")
     public double longitude;
-    @Field("latitude ")
+    @Field("Latitude")
     public double latitude;
 
     public String getId() {
@@ -90,13 +99,6 @@ public class RetailerMongo {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public double getLongitude() {
         return longitude;

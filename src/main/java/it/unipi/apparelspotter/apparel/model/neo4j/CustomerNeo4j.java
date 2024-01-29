@@ -20,11 +20,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class CustomerNeo4j {
 
-    @Id
-    @GeneratedValue(generatorClass = UUIDStringGenerator.class)
-    private String id;
 
     @Property("_id")
+    @Id
     private String mongoId;
 
     @Property("location")
@@ -36,17 +34,7 @@ public class CustomerNeo4j {
 
     @Relationship(type = "FOLLOW", direction = Relationship.Direction.OUTGOING)
     private Set<RetailerNeo4j> followedRetailers = new HashSet<>();
-
     // Setters and Getters
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getMongoId() {
         return mongoId;
     }

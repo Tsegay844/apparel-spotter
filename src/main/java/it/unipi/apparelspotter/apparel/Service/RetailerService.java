@@ -3,9 +3,10 @@ import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Repository.mongo.ClothMongoRepository;
 import it.unipi.apparelspotter.apparel.Repository.neo4j.ClothNeo4jRepository;
 import it.unipi.apparelspotter.apparel.Repository.neo4j.RetailerNeo4jRepository;
-import it.unipi.apparelspotter.apparel.model.mongo.CategoryCount;
+import it.unipi.apparelspotter.apparel.model.dot.CategoryCount;
 import it.unipi.apparelspotter.apparel.model.mongo.ClothMongo;
-import it.unipi.apparelspotter.apparel.model.mongo.RetailerAverageRating;
+import it.unipi.apparelspotter.apparel.model.dot.ClothObjectId;
+import it.unipi.apparelspotter.apparel.model.dot.RetailerAverageRating;
 import it.unipi.apparelspotter.apparel.model.neo4j.ClothNeo4j;
 import it.unipi.apparelspotter.apparel.model.neo4j.RetailerNeo4j;
 import it.unipi.apparelspotter.apparel.model.neo4j.TopLikedClothOfRetailer;
@@ -15,16 +16,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
 import java.util.*;
 
 @Service
-public class ClothService {
+public class RetailerService {
     private final ClothMongoRepository clothMongoRepository;
     private final ClothNeo4jRepository clothNeo4jRepository;
     private final RetailerNeo4jRepository retailerNeo4jRepository;
     private final MongoTemplate mongoTemplate;
-    public ClothService( MongoTemplate mongoTemplate, RetailerNeo4jRepository retailerNeo4jRepository, ClothMongoRepository clothMongoRepository, ClothNeo4jRepository clothNeo4jRepository){
+    public RetailerService(MongoTemplate mongoTemplate, RetailerNeo4jRepository retailerNeo4jRepository, ClothMongoRepository clothMongoRepository, ClothNeo4jRepository clothNeo4jRepository){
         this.clothMongoRepository=clothMongoRepository;
         this.clothNeo4jRepository=clothNeo4jRepository;
         this.retailerNeo4jRepository=retailerNeo4jRepository;
@@ -32,7 +32,7 @@ public class ClothService {
     }
     String clothId=null;
     String retailerId = GlobalState.getInstance().getCurrentRetailerId();
-           public ClothMongo postCloth(String category, String type, String size, String brand, String price, String url, Date postDate) {
+           public ClothMongo postCloth(String category, String type, String size, String brand, String price, String url, String postDate) {
             ClothMongo newCloth= new ClothMongo();
             newCloth.setCategory(category);
             newCloth.setType(type);
@@ -89,8 +89,34 @@ public class ClothService {
     public  Integer getToltalFollowersForRetailer(String retailerId){
                return clothNeo4jRepository.countTotalFollowersByRetailer(retailerId);
     }
+    public List<ClothObjectId> getRandomClothsByRetailerId(String retailerIdString) {
+        ObjectId retailerId = new ObjectId(retailerIdString); // Convert the string to an ObjectId
+        return clothMongoRepository.findRandomClothsByRetailerId(retailerId);
+    }
+
+    public Double getAverageRatingByClothId(ObjectId clothId){
+         return clothMongoRepository.getAverageRatingByClothId(clothId);
+    }
+   public Integer getNumberOfReviewsByClothId(ObjectId clothId){
+               return clothMongoRepository.getNumberOfReviewsByClothId(clothId);
+   }
+    public Integer getNumberOfLikesByClothId(ObjectId clothId) {
+        // Convert ObjectId to its string representation
+        String idAsString = clothId.toString();
+        // Call the repository method with the string ID
+        return clothNeo4jRepository.getNumberOfLikesByClothId(idAsString);
+    }
+
+    /*public String getClothCategory(ObjectId id) {
+        Optional<ClothMongoDTO> clothCategoryDTO = clothMongoRepository.findCategoryByClothId(id);
+
+        return clothCategoryDTO
+                .map(ClothMongoDTO::getCategory) // This should correctly extract the category field
+                .orElseThrow(() -> new NoSuchElementException("Cloth with ID: " + id.toHexString() + " not found."));
+    }*/
 
 }
+
 
 
 

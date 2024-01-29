@@ -59,3 +59,20 @@ public class sample {
 
 // @Query("MATCH (retailer:Retailer) WHERE retailer._id = $retailerId RETURN retailer")
 //    Optional<RetailerNeo4j> findBy_Id(String retailerId);
+
+
+
+            /*ClothDetail clothDetails = clothService.getClothDetailsById(id);
+
+            if (clothDetails != null) {
+                System.out.print("Cloth Name: " + clothDetails.getItem_name());
+                System.out.print("Cloth Category: " + clothDetails.getCategory());
+                System.out.print("Cloth Type: " + clothDetails.getType());
+                System.out.print("Cloth Brand: " + clothDetails.getBrand());
+                System.out.print("Cloth Size: " + clothDetails.getSize());
+                System.out.print("Cloth Price: " + clothDetails.getPrice());
+                System.out.print("Cloth ImageURL: " + clothDetails.getImageUrl());
+                System.out.print("Cloth PostedDate: " + clothDetails.getPostedDate());
+            } else {
+                System.out.println("Cloth details not available.");
+            }*/

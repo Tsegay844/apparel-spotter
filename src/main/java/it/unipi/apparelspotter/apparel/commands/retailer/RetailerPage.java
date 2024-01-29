@@ -15,13 +15,15 @@ public class RetailerPage {
     private final AuthService authService;
     private final Postcloth postcloth;
     private final Statistics statistics;
+    private final ClothList clothlist;
     private final Scanner scanner;
     private Auth auth;
 
     @Autowired
-    public RetailerPage(@Lazy Statistics statistics, AuthService authService, @Lazy Auth auth, Postcloth postcloth, CustomerPage customerPage, CustomerService customerService) {
+    public RetailerPage(@Lazy Statistics statistics,@Lazy ClothList clothlist, AuthService authService, @Lazy Auth auth, Postcloth postcloth, CustomerPage customerPage, CustomerService customerService) {
         this.authService = authService;
         this.statistics=statistics;
+        this.clothlist=clothlist;
         this.customerService = customerService;
         this.postcloth=postcloth;
         this.auth=auth;
@@ -86,12 +88,14 @@ public class RetailerPage {
         statistics.totalFollowersByRetailer();
         statistics.totalLikesOfClothsByRetailer();
         statistics.topLikedClothsOfRetailer();
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  listOfYourCloths(){
-        System.out.println("\u001B[1mStatistics\u001B[0m");
+        System.out.println("\u001B[1mList Of Cloths\u001B[0m");
         System.out.println("**************************************");
+        clothlist.printRandomClothsByRetailer();
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  EditProfile(){
@@ -111,8 +115,7 @@ public class RetailerPage {
 
 
     public void Closing(){
-        System.out.println("1. continue");
-        System.out.println("2. back");
+        System.out.print("Enter Your choice (1 to continue, 2 to back): ");
         int input = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
         switch (input){

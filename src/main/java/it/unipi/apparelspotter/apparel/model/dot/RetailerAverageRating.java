@@ -1,4 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.mongo;
+package it.unipi.apparelspotter.apparel.model.dot;
 
 public class RetailerAverageRating {
     private String retailerId;  // This field corresponds to the retailer's ID

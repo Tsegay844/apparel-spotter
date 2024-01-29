@@ -20,7 +20,6 @@ public class RetailerNeo4j {
     private String mongoId;
     @Property("location")
     private Point location;
-
     public String getMongoId() {
         return mongoId;
     }

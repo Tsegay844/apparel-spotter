@@ -105,6 +105,9 @@ public class Auth {
                     System.out.println("Customer login successful!");
                     String customerId = customerOptional.get().getId();
                     GlobalState.getInstance().setCurrentCustomerId(customerId);
+
+                    //String Logged_in_id=GlobalState.getInstance().getCurrentCustomerId();
+                   // System.out.println("cogged in custmer Id :"+Logged_in_id);
                     //*************Go to Customer Page**************
                    customerPage.customerpage();
                 } else {

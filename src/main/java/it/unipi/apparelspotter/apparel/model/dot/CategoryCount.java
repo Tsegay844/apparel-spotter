@@ -1,4 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.mongo;
+package it.unipi.apparelspotter.apparel.model.dot;
 
 public class CategoryCount {
     private String id;

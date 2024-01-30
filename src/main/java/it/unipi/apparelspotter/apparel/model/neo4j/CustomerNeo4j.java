@@ -19,12 +19,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerNeo4j {
-
-
     @Property("_id")
     @Id
     private String mongoId;
-
     @Property("location")
     private Point location;
 
@@ -66,7 +63,5 @@ public class CustomerNeo4j {
     public void setFollowedRetailers(Set<RetailerNeo4j> followedRetailers) {
         this.followedRetailers = followedRetailers;
     }
-// Add other fields and methods as necessary
 }
 
-// You need to create ClothNeo4j and RetailerNeo4j classes as well if they don't exist

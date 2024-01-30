@@ -69,6 +69,5 @@ public class ReviewNeo4j {
     public void setCloth(ClothNeo4j cloth) {
         this.cloth = cloth;
     }
-// Getters and setters for the new fields (if not using Lombok's @Data)
-    // ... existing getters and setters
+
 }

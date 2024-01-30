@@ -2,8 +2,8 @@ package it.unipi.apparelspotter.apparel.commands.retailer;
 
 import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Service.RetailerService;
-import it.unipi.apparelspotter.apparel.model.dot.CategoryCount;
-import it.unipi.apparelspotter.apparel.model.dot.RetailerAverageRating;
+import it.unipi.apparelspotter.apparel.model.dto.CategoryCount;
+import it.unipi.apparelspotter.apparel.model.dto.RetailerAverageRating;
 import it.unipi.apparelspotter.apparel.model.neo4j.TopLikedClothOfRetailer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,7 +42,6 @@ public class Statistics {
     public void printClothsCountByCategory() {
         String retailerId = GlobalState.getInstance().getCurrentRetailerId();
 
-
         List<CategoryCount> categoryCounts = retailerService.getClothsCountByCategoryForLoggedInRetailer(retailerId);
 
         if (categoryCounts.isEmpty()) {
@@ -74,7 +73,7 @@ public class Statistics {
         String retailerId = GlobalState.getInstance().getCurrentRetailerId().trim();
        int numberOflikes= retailerService.getTotalLikesForRetailer(retailerId);
         System.out.print("\u001B[32m=>\u001B[0m");
-        System.out.println("Total Number of Likes of your cloths: " + numberOflikes);
+        System.out.println("Total Number of Likes: " + numberOflikes);
 
     }
     public void totalFollowersByRetailer() {

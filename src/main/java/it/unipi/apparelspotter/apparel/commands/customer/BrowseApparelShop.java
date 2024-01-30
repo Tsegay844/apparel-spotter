@@ -2,10 +2,8 @@ package it.unipi.apparelspotter.apparel.commands.customer;
 
 import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
-import it.unipi.apparelspotter.apparel.model.dot.ReviewState;
-import it.unipi.apparelspotter.apparel.model.mongo.ClothMongo;
+import it.unipi.apparelspotter.apparel.model.dto.ReviewState;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
-import it.unipi.apparelspotter.apparel.model.neo4j.RetailerNeo4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -56,9 +56,8 @@ public class AuthService {
         System.out.println("Saved customer: " + savedCustomer.toString());
         System.out.println("Customer signup successful!");
 
-        return savedCustomer;}
-
-
+        return savedCustomer;
+        }
     }
     public RetailerMongo retailerSignup(String firstName, String lastName, String gender, int contact, String email, String password, String retailerName) {
         Optional<RetailerMongo> existingRetailer = retailerMongoRepository.findByEmail(email);

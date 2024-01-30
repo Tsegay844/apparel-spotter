@@ -1,4 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.dot;
+package it.unipi.apparelspotter.apparel.model.dto;
 import org.springframework.data.annotation.Id;
 public class ClothIds {
     @Id

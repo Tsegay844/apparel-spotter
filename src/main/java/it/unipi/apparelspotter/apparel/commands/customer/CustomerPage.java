@@ -1,5 +1,5 @@
 package it.unipi.apparelspotter.apparel.commands.customer;
-
+import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Service.AuthService;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
 import it.unipi.apparelspotter.apparel.commands.Auth;
@@ -17,16 +17,20 @@ public class CustomerPage {
     private BrowseCloth browseCloth;
     private final NearByApparelShops nearByApparelShops;
     private  final Suggestions suggestions;
+    private final FindByPreference findByPreference;
+    private  final Popularity popularity;
     private Auth auth;
     private final Scanner scanner;
     @Autowired
-    public CustomerPage(@Lazy Suggestions suggestions, @Lazy BrowseApparelShop browseApparelShop, @Lazy BrowseCloth browseCloth,@Lazy NearByApparelShops nearByApparelShops, AuthService authService, Auth auth, CustomerService customerService) {
+    public CustomerPage(@Lazy Popularity popularity, @Lazy FindByPreference findByPreference, @Lazy Suggestions suggestions, @Lazy BrowseApparelShop browseApparelShop, @Lazy BrowseCloth browseCloth,@Lazy NearByApparelShops nearByApparelShops, AuthService authService, Auth auth, CustomerService customerService) {
         this.authService = authService;
         this.customerService = customerService;
         this.auth=auth;
         this.browseCloth=browseCloth;
         this.nearByApparelShops=nearByApparelShops;
         this.browseApparelShop =browseApparelShop;
+        this.findByPreference=findByPreference;
+        this.popularity=popularity;
         this.suggestions = suggestions;
         this.scanner = new Scanner(System.in);
     }
@@ -37,17 +41,14 @@ public void customerpage(){
     System.out.println("1. Browse for cloth");
     System.out.println("2. Suggested cloths");
     System.out.println("3. Find cloths by preferences");
-    System.out.println("4. Find cloth by cloth name");
-    System.out.println("5. Browse apparel");
-    System.out.println("6. Nearby apparel shops");
-    System.out.println("7. Find Apparel shop by Shop name ");
-    System.out.println("8. Popular Retailers");
-    System.out.println("9. Popular Brands");
-    System.out.println("10. Top like cloths");
-    System.out.println("11. view profile");
-    System.out.println("12. Edit your profile");
-    System.out.println("13. Delete your profile");
-    System.out.println("14. log-out");
+    System.out.println("4. Browse apparel");
+    System.out.println("5. Nearby apparel shops");
+    System.out.println("6. Popular Retailers");
+    System.out.println("7. Popular Brands");
+    System.out.println("8. Top like cloths");
+    System.out.println("9. Edit your profile");
+    System.out.println("10. Delete your profile");
+    System.out.println("11. log-out");
     System.out.print("Enter your choice (0 to exit): ");
     int choice = scanner.nextInt();
     scanner.nextLine(); // Consume the newline character
@@ -67,33 +68,24 @@ public void customerpage(){
             preference();
             break;
         case 4:
-            findClothByName();
-            break;
-        case 5:
             browseApparelShop();
             break;
-        case 6:
+        case 5:
             nearByApparelShop();
             break;
-        case 7:
-            findApparelShopByname();
-            break;
-        case 8:
-            popularRetailers();
-            break;
-        case 9:
+        case 6:
             popularBrands();
             break;
-        case 10:
+        case 7:
             topLikedCloths();
             break;
-        case 11:
+        case 8:
             EditProfile();
             break;
-        case 12:
+        case 9:
            DeleteProfile();
             break;
-        case 13:
+        case 10:
             LogOut();
             break;
         default:
@@ -104,6 +96,7 @@ public void customerpage(){
 
 }
     public void  browseCloth(){
+        System.out.println();
         System.out.println("\u001B[1mlist of cloths\u001B[0m");
         System.out.println("*************************************************************************************");
         browseCloth.search();
@@ -111,27 +104,34 @@ public void customerpage(){
         Closing();
         }
     public void  suggestedCloths(){
+        System.out.println();
         System.out.println("\u001B[1mlist of Suggested CLoths\u001B[0m");
         System.out.println("**************************************");
         suggestions.suggestedByLikes();
+        System.out.println();
         suggestions.suggestedByFollow();
+        System.out.println();
         suggestions.suggestedByReviewAndRating();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  preference(){
+        System.out.println();
         System.out.println("\u001B[1mlist of CLoths based on your preference\u001B[0m");
         System.out.println("**************************************");
+        findByPreference.addPreference();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  findClothByName(){
+        System.out.println();
         System.out.println("\u001B[1msearched cloth\u001B[0m");
         System.out.println("**************************************");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  browseApparelShop(){
+        System.out.println();
         System.out.println("\u001B[1mlist of apparel shops\u001B[0m");
         System.out.println("**************************************");
         browseApparelShop.search();
@@ -140,6 +140,7 @@ public void customerpage(){
     }
 
     public void  nearByApparelShop(){
+        System.out.println();
         System.out.println("\u001B[1mlist of nearby apparelshops\u001B[0m");
         System.out.println("**************************************");
         nearByApparelShops.NearBy();
@@ -148,36 +149,47 @@ public void customerpage(){
     }
 
     public void  findApparelShopByname(){
+        System.out.println();
         System.out.println("\u001B[1m Searched apparel-shop/retailer\u001B[0m");
         System.out.println("**************************************");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  popularRetailers(){
+        System.out.println();
         System.out.println("\u001B[1mlist of popular apparele shop/retailers\u001B[0m");
         System.out.println("**************************************");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  popularBrands(){
+        System.out.println();
         System.out.println("\u001B[1mlist popular brands\u001B[0m");
         System.out.println("**************************************");
+        popularity.PopularBrands();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  topLikedCloths(){
+        System.out.println();
         System.out.println("\u001B[1mlist of top liked cloths\u001B[0m");
         System.out.println("**************************************");
+        popularity.TopLIkeCloths();
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
     public void  EditProfile(){
+        System.out.println();
         System.out.println("\u001B[1mEdit your profile\u001B[0m");
         System.out.println("**************************************");
     }
     public void  DeleteProfile(){
+        System.out.println();
         System.out.println("\u001B[1mYou are deleting your profile\u001B[0m");
+        deleteProfile();
+        auth.performAction();
         System.out.println("**************************************");
+        Closing();
     }
 
     public void  LogOut(){
@@ -200,4 +212,19 @@ public void customerpage(){
                 break;
         }
     }
-}
+
+    public void deleteProfile() {
+        System.out.println("Please enter your email to confirm account deletion:");
+        String email = scanner.nextLine();
+
+        boolean isDeleted = customerService.deleteCustomerAccountByEmail(email);
+        if (isDeleted) {
+            System.out.println("Your account successfully deleted.");
+            String id = GlobalState.getInstance().getCurrentCustomerId();
+             customerService.deleteCustomerNode(id);
+                System.out.println("Customer node successfully deleted.");
+
+        } else {
+            System.out.println("No account found with that email, or deletion failed.");
+        }
+    }}

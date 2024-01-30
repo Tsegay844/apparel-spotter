@@ -17,12 +17,10 @@ public class GlobalState {
         return instance;
     }
 
-    // Getter for current retailer ID
     public String getCurrentRetailerId() {
         return currentRetailerId;
     }
 
-    // Setter for current retailer ID
     public void setCurrentRetailerId(String currentRetailerId) {
         this.currentRetailerId = currentRetailerId;
     }

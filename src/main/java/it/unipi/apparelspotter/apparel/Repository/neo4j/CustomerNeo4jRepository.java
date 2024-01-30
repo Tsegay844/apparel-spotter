@@ -47,5 +47,7 @@ public interface CustomerNeo4jRepository extends Neo4jRepository<CustomerNeo4j, 
             "WITH retailer, followersCount, COLLECT(cloth)[0] AS topCloth " +
             "RETURN topCloth._id AS topClothId")
     List<String> findTopClothsForTopRetailers(String customerId);
+    @Query("MATCH (c:Customer {_id: $id}) DETACH DELETE c")
+    void deleteCustomerByPropertyId(@Param("id") String propertyId);
 
 }

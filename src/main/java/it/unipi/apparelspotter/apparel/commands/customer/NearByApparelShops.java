@@ -5,7 +5,6 @@ import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 @Component
 public class NearByApparelShops {
@@ -25,12 +24,17 @@ public class NearByApparelShops {
 
 // Now you can iterate over the retailersDetails list and do whatever you need with the data
         for (RetailerMongo retailer : retailersDetails) {
-           System.out.println("Shope Name: " +retailer.getRetailerName());
+            System.out.println("-------------------------------------------");
+            System.out.println("Shope Name: " +retailer.getRetailerName());
+            System.out.println("-------------------------------------------");
            System.out.println("Retailer details:");
            System.out.println("    Name: "+retailer.getFirstName() + retailer.getLastName()+ " Gender: "+retailer.getGender());
-           System.out.println("    Email: " + retailer.getEmail()+" Contact: " + retailer.getPhoneNumber()+" Location: ("+retailer.getLatitude()+ ", "+retailer.getLongitude()+")");
-           System.out.println("-----------------------------------------------------------------------------------------------------------");
-            //System.out.println(retailer.toString());
+           System.out.println("    Email: " + retailer.getEmail());
+           System.out.println("    Contact: " + retailer.getPhoneNumber());
+           System.out.println("    Location: ("+retailer.getLatitude()+ ", "+retailer.getLongitude()+")");
+            System.out.println();
+           System.out.println();
+             //System.out.println(retailer.toString());
         }
     }
     }

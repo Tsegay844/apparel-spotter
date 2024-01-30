@@ -20,7 +20,7 @@ public interface RetailerNeo4jRepository extends Neo4jRepository<RetailerNeo4j, 
             "WITH r, point.distance(c.location, r.location) AS dist " +
             "RETURN r._id AS retailerId " +
             "ORDER BY dist ASC " +
-            "LIMIT 20")
+            "LIMIT 5")
     List<String> findNearbyRetailersByCustomerId(@Param("customerId") String customerId);
     @Query("MATCH (r:Retailer)<-[:FOLLOW]-() " +
             "WHERE r._id = $retailerId " +
@@ -29,6 +29,8 @@ public interface RetailerNeo4jRepository extends Neo4jRepository<RetailerNeo4j, 
 
     @Query("MATCH (r:Retailer) WHERE r._id = $mongoId RETURN r")
     Optional<RetailerNeo4j> findRetailerByMongoId(String mongoId);
+    @Query("MATCH (r:Retailer {_id: $id}) DETACH DELETE r")
+    void deleteRetailerByPropertyId(@Param("id") String propertyId);
 
 
 

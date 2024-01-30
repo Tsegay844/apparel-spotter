@@ -1,4 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.dot;
+package it.unipi.apparelspotter.apparel.model.dto;
 
 public class ReviewState {
 
@@ -25,5 +25,5 @@ public class ReviewState {
     public void setAverageRating(double averageRating) {
         this.averageRating = averageRating;
     }
-// Constructor, Getters, and Setters
+
 }

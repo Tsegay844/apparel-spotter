@@ -1,9 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.dot;
-
-import org.neo4j.cypherdsl.core.Return;
-
-import java.util.Date;
-import java.util.List;
+package it.unipi.apparelspotter.apparel.model.dto;
 
 
 public class ClothMongoDTO {

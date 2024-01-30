@@ -1,4 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.dot;
+package it.unipi.apparelspotter.apparel.model.dto;
 
 public class CategoryCount {
     private String id;
@@ -19,8 +19,7 @@ public class CategoryCount {
     public void setCount(int count) {
         this.count = count;
     }
-// getters and setters
+
 }
 
-    // This will hold the count of cloths for the category
 

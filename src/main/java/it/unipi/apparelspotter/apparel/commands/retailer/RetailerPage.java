@@ -1,5 +1,6 @@
 package it.unipi.apparelspotter.apparel.commands.retailer;
 
+import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Service.AuthService;
 import it.unipi.apparelspotter.apparel.Service.CustomerService;
 import it.unipi.apparelspotter.apparel.commands.Auth;
@@ -100,19 +101,20 @@ public class RetailerPage {
     }
     public void  EditProfile(){
         System.out.println("\u001B[1mEdit your profile\u001B[0m");
+        DeleteProfile();
         System.out.println("**************************************");
-        Closing();
+
     }
     public void  DeleteProfile(){
         System.out.println("\u001B[1mYou are deleting your profile\u001B[0m");
+        deleteProfile();
         System.out.println("**************************************");
-        Closing();
+        auth.performAction();
     }
     public void  LogOut(){
         auth.performAction();
 
     }
-
 
     public void Closing(){
         System.out.print("Enter Your choice (1 to continue, 2 to back): ");
@@ -130,7 +132,21 @@ public class RetailerPage {
                 break;
         }
     }
+    public void deleteProfile() {
+        System.out.println("Please enter your email to confirm account deletion:");
+        String email = scanner.nextLine();
+
+        boolean isDeleted = customerService.deleteRetailerAccountByEmail(email);
+        if (isDeleted) {
+            System.out.println("Your account successfully deleted.");
+            String id = GlobalState.getInstance().getCurrentRetailerId();
+            customerService.deleteRetailerNode(id);
+            System.out.println("Retailer node successfully deleted.");
+
+        } else {
+            System.out.println("No account found with that email, or deletion failed.");
+        }
 
 
-
-}
+    }
+    }

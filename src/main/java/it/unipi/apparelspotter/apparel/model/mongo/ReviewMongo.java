@@ -9,23 +9,28 @@ import java.util.Date;
 
 @Document(collection = "reviews")
 
-@Getter // Generates all the getters
-@Setter // Generates all the setters
-// Generates an all-args constructor
-@EqualsAndHashCode // Generates equals and hashCode methods
-@ToString // Generates toString method
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewMongo {
         @Id
         private String id;
-
+        private String Title;
         private String reviewText;
         private int rating;
-        private String customerId;
-        private String clothId;
         private Date date;
+
+        public String getTitle() {
+                return Title;
+        }
+
+        public void setTitle(String title) {
+                Title = title;
+        }
 
         public String getId() {
                 return id;
@@ -51,21 +56,6 @@ public class ReviewMongo {
                 this.rating = rating;
         }
 
-        public String getCustomerId() {
-                return customerId;
-        }
-
-        public void setCustomerId(String customerId) {
-                this.customerId = customerId;
-        }
-
-        public String getClothId() {
-                return clothId;
-        }
-
-        public void setClothId(String clothId) {
-                this.clothId = clothId;
-        }
 
         public Date getDate() {
                 return date;

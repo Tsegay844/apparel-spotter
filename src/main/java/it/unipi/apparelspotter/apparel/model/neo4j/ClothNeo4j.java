@@ -17,7 +17,6 @@ public class ClothNeo4j {
     @Id
     @Property("_id")
     private String mongoId;
-    // This defines that each cloth is posted by one retailer only
     @Relationship(type = "POSTED_BY", direction = Relationship.Direction.OUTGOING)
     private RetailerNeo4j postedByRetailer;
 

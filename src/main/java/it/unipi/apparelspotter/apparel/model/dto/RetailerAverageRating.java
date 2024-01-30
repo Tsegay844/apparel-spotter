@@ -1,16 +1,16 @@
-package it.unipi.apparelspotter.apparel.model.dot;
+package it.unipi.apparelspotter.apparel.model.dto;
 
 public class RetailerAverageRating {
-    private String retailerId;  // This field corresponds to the retailer's ID
-    private Double averageRating;  // This field holds the calculated average rating
+    private String retailerId;
+    private Double averageRating;
 
-    // Constructor
+
     public RetailerAverageRating(String retailerId, Double averageRating) {
         this.retailerId = retailerId;
         this.averageRating = averageRating;
     }
 
-    // Getters and Setters
+
     public String getRetailerId() {
         return retailerId;
     }
@@ -27,7 +27,7 @@ public class RetailerAverageRating {
         this.averageRating = averageRating;
     }
 
-    // toString method for easy logging and debugging
+
     @Override
     public String toString() {
         return "RetailerAverageRating{" +
@@ -36,5 +36,5 @@ public class RetailerAverageRating {
                 '}';
     }
 
-    // hashCode and equals methods, if necessary
+
 }

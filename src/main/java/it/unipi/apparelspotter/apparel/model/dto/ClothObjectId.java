@@ -1,4 +1,4 @@
-package it.unipi.apparelspotter.apparel.model.dot;
+package it.unipi.apparelspotter.apparel.model.dto;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -7,7 +7,7 @@ public class ClothObjectId {
 
     @Id
     private ObjectId _id;
-    private String Category;// Use of @Id annotation to indicate this field is the identifier in the MongoDB collection
+    private String Category;
 
     public String getCategory() {
         return Category;

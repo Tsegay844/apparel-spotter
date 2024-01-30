@@ -3,10 +3,10 @@ import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Repository.mongo.ClothMongoRepository;
 import it.unipi.apparelspotter.apparel.Repository.neo4j.ClothNeo4jRepository;
 import it.unipi.apparelspotter.apparel.Repository.neo4j.RetailerNeo4jRepository;
-import it.unipi.apparelspotter.apparel.model.dot.CategoryCount;
+import it.unipi.apparelspotter.apparel.model.dto.CategoryCount;
 import it.unipi.apparelspotter.apparel.model.mongo.ClothMongo;
-import it.unipi.apparelspotter.apparel.model.dot.ClothObjectId;
-import it.unipi.apparelspotter.apparel.model.dot.RetailerAverageRating;
+import it.unipi.apparelspotter.apparel.model.dto.ClothObjectId;
+import it.unipi.apparelspotter.apparel.model.dto.RetailerAverageRating;
 import it.unipi.apparelspotter.apparel.model.neo4j.ClothNeo4j;
 import it.unipi.apparelspotter.apparel.model.neo4j.RetailerNeo4j;
 import it.unipi.apparelspotter.apparel.model.neo4j.TopLikedClothOfRetailer;
@@ -103,17 +103,9 @@ public class RetailerService {
     public Integer getNumberOfLikesByClothId(ObjectId clothId) {
         // Convert ObjectId to its string representation
         String idAsString = clothId.toString();
-        // Call the repository method with the string ID
         return clothNeo4jRepository.getNumberOfLikesByClothId(idAsString);
     }
 
-    /*public String getClothCategory(ObjectId id) {
-        Optional<ClothMongoDTO> clothCategoryDTO = clothMongoRepository.findCategoryByClothId(id);
-
-        return clothCategoryDTO
-                .map(ClothMongoDTO::getCategory) // This should correctly extract the category field
-                .orElseThrow(() -> new NoSuchElementException("Cloth with ID: " + id.toHexString() + " not found."));
-    }*/
 
 }
 

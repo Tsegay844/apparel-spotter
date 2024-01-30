@@ -30,16 +30,16 @@ public class BrowseCloth {
     String clothIdString="";
     String customerId= GlobalState.getInstance().getCurrentCustomerId();
         public void search() {
-            int command = -1; // Initialize to something other than 0 to enter the loop
+            int command = -1;
             do {
-                getRandomCloth(); // Assume this method is implemented elsewhere
+                getRandomCloth();
                 try {
                     System.out.println("1. Next ");
                     System.out.println("2. like ");
                     System.out.println("0. Abort Searching");
                     System.out.print("Enter your choice: ");
                     command = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline left-over
+                    scanner.nextLine();
                     switch (command) {
                         case 0:
                             System.out.println("Exiting application...");
@@ -67,35 +67,32 @@ public class BrowseCloth {
         public ResponseEntity<Void> getRandomCloth() {
         ClothMongo randomCloth = customerService.getRandomCloth();
         clothIdString = randomCloth.getId();
-            // Assuming this returns a String
         ObjectId clothId = new ObjectId(clothIdString); // Convert String to ObjectId
-
-        System.out.println("Cloth ID: " + randomCloth.getId());
-        System.out.println("Item Name: " + randomCloth.getItem_name());
-        System.out.println("Category: " + randomCloth.getCategory());
-        System.out.println("Type: " + randomCloth.getType());
-        System.out.println("Brand: " + randomCloth.getItem_name());
-        System.out.println("Image URL: " + randomCloth.getImageUrl());
-        System.out.println("Price: " + randomCloth.getPrice());
-        System.out.println("Number of likes: " + customerService.getNumberOfLikesByClothId(clothId));
-        System.out.println("Number of Reviews: " + customerService.getNumberOfReviewsByClothId(clothId));
-        System.out.println("Average Rating: " + customerService.getAverageRatingByClothId(clothId));
-        System.out.println("Posted By: " + randomCloth.getRetailer().getRetailerName());
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        // Return an empty response body with a 200 OK status.
+            System.out.println();
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("Cloth ID: " + randomCloth.getId());
+            System.out.println("Item Name: " + randomCloth.getItem_name());
+            System.out.println("Category: " + randomCloth.getCategory());
+            System.out.println("Type: " + randomCloth.getType());
+            System.out.println("Brand: " + randomCloth.getItem_name());
+            System.out.println("Image URL: " + randomCloth.getImageUrl());
+            System.out.println("Price: " + randomCloth.getPrice());
+            System.out.println("Number of likes: " + customerService.getNumberOfLikesByClothId(clothId));
+            System.out.println("Number of Reviews: " + customerService.getNumberOfReviewsByClothId(clothId));
+            System.out.println("Average Rating: " + customerService.getAverageRatingByClothId(clothId));
+            System.out.println("Posted By: " + randomCloth.getRetailer().getRetailerName());
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            // Return an empty response body with a 200 OK status.
         return ResponseEntity.ok().build();
     }
     public ResponseEntity<Void> afterLike(String ClothId) {
         ObjectId clothId = new ObjectId(clothIdString);
-        // Convert String to ObjectId
         Optional<ClothMongo> clothOptional = customerService.findClothById(clothId);
         clothOptional.ifPresent(cloth -> System.out.println("Cloth ID: " + cloth.getId()));
         System.out.println("Updated Number of likes: " + customerService.getNumberOfLikesByClothId(clothId));
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         System.out.println();
-        //System.out.println("Number of Reviews: " + customerService.getNumberOfReviewsByClothId(clothId));
-        //System.out.println("Average Rating: " + customerService.getAverageRatingByClothId(clothId));
-        // Return an empty response body with a 200 OK status.
+
         return ResponseEntity.ok().build();
 
     }

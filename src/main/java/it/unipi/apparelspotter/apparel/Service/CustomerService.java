@@ -1,14 +1,11 @@
 package it.unipi.apparelspotter.apparel.Service;
 
-import it.unipi.apparelspotter.apparel.GlobalState;
 import it.unipi.apparelspotter.apparel.Repository.mongo.ClothMongoRepository;
 import it.unipi.apparelspotter.apparel.Repository.mongo.CustomerMongoRepository;
 import it.unipi.apparelspotter.apparel.Repository.mongo.RetailerMongoRepository;
 import it.unipi.apparelspotter.apparel.Repository.neo4j.ClothNeo4jRepository;
 import it.unipi.apparelspotter.apparel.Repository.neo4j.RetailerNeo4jRepository;
-import it.unipi.apparelspotter.apparel.model.dot.ClothIds;
-import it.unipi.apparelspotter.apparel.model.dot.RetailerAverageRating;
-import it.unipi.apparelspotter.apparel.model.dot.ReviewState;
+import it.unipi.apparelspotter.apparel.model.dto.*;
 import it.unipi.apparelspotter.apparel.model.mongo.ClothMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.CustomerMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
@@ -37,14 +34,15 @@ public class CustomerService {
 
 
     @Autowired
-    public CustomerService(RetailerMongoRepository retailerMongoRepository, RetailerNeo4jRepository retailerNeo4jRepository, ClothNeo4jRepository clothNeo4jRepository,ClothMongoRepository clothMongoRepository, CustomerMongoRepository customerMongoRepository, CustomerNeo4jRepository customerNeo4jRepository) {
+    public CustomerService(RetailerMongoRepository retailerMongoRepository, RetailerNeo4jRepository retailerNeo4jRepository, ClothNeo4jRepository clothNeo4jRepository, ClothMongoRepository clothMongoRepository, CustomerMongoRepository customerMongoRepository, CustomerNeo4jRepository customerNeo4jRepository) {
         this.customerMongoRepository = customerMongoRepository;
         this.customerNeo4jRepository = customerNeo4jRepository;
-        this.clothMongoRepository =clothMongoRepository;
-        this.clothNeo4jRepository=clothNeo4jRepository;
-        this.retailerNeo4jRepository=retailerNeo4jRepository;
-        this.retailerMongoRepository=retailerMongoRepository;
+        this.clothMongoRepository = clothMongoRepository;
+        this.clothNeo4jRepository = clothNeo4jRepository;
+        this.retailerNeo4jRepository = retailerNeo4jRepository;
+        this.retailerMongoRepository = retailerMongoRepository;
     }
+
     // MongoDB CRUD operations
     public List<CustomerMongo> getAllMongoCustomers() {
         return customerMongoRepository.findAll();
@@ -67,9 +65,9 @@ public class CustomerService {
         return customerNeo4jRepository.findAllCustomers();
     }
 
-  /*  public Optional<CustomerNeo4j> getNeo4jCustomerById(String _id) {
-        return Optional.ofNullable(customerNeo4jRepository.findCustomerByMongoId(_id));
-    }*/
+    /*  public Optional<CustomerNeo4j> getNeo4jCustomerById(String _id) {
+          return Optional.ofNullable(customerNeo4jRepository.findCustomerByMongoId(_id));
+      }*/
     public Optional<CustomerNeo4j> getNeo4jCustomerById(String _id) {
         return customerNeo4jRepository.findCustomerByMongoId(_id);
     }
@@ -85,22 +83,25 @@ public class CustomerService {
     public ClothMongo getRandomCloth() {
         return clothMongoRepository.findRandomCloth()
                 .orElseThrow(() -> new NoSuchElementException("No cloth found in the database."));
-}
-    public Double getAverageRatingByClothId(ObjectId clothId){
+    }
+
+    public Double getAverageRatingByClothId(ObjectId clothId) {
         return clothMongoRepository.getAverageRatingByClothId(clothId);
     }
-    public Integer getNumberOfReviewsByClothId(ObjectId clothId){
+
+    public Integer getNumberOfReviewsByClothId(ObjectId clothId) {
         return clothMongoRepository.getNumberOfReviewsByClothId(clothId);
     }
+
     public Integer getNumberOfLikesByClothId(ObjectId clothId) {
-        // Convert ObjectId to its string representation
         String idAsString = clothId.toString();
-        // Call the repository method with the string ID
         return clothNeo4jRepository.getNumberOfLikesByClothId(idAsString);
     }
-    public Integer getNumberOfFollowersByClothId(String   retailerId) {
+
+    public Integer getNumberOfFollowersByClothId(String retailerId) {
         return retailerNeo4jRepository.countTotalFollowersByRetailer(retailerId);
     }
+
     @Transactional
     public void followRetailer(String customerId, String retailerMongoId) {
         CustomerNeo4j customer = customerNeo4jRepository.findCustomerByMongoId(customerId)
@@ -110,6 +111,7 @@ public class CustomerService {
         customer.getFollowedRetailers().add(retailer);
         customerNeo4jRepository.save(customer);
     }
+
     @Transactional
     public void likeCloth(String customerId, String clothMongoId) {
         CustomerNeo4j customer = customerNeo4jRepository.findCustomerByMongoId(customerId)
@@ -120,6 +122,7 @@ public class CustomerService {
         customer.getLikedCloths().add(cloth);
         customerNeo4jRepository.save(customer);
     }
+
     public Optional<ClothMongo> findClothById(ObjectId _id) {
 
         return clothMongoRepository.findById(_id);
@@ -127,29 +130,18 @@ public class CustomerService {
     public Optional<RetailerMongo> findRetailerById(ObjectId _id) {
         return retailerMongoRepository.findRetailerById(_id);
     }
-
-
-    public Optional<CustomerNeo4j> findCustomerByPropertyId(String propertyId) {
-        return customerNeo4jRepository.findCustomerByPropertyId(propertyId);
-    }
-
     public List<String> findRetailerIdsNearCustomer(String customerId) {
         return retailerNeo4jRepository.findNearbyRetailersByCustomerId(customerId);
     }
     public List<RetailerMongo> getRetailerDetails(List<String> retailerIds) {
         return retailerMongoRepository.findByIdIn(retailerIds);
     }
-
     public RetailerMongo getRandomApparelShop() {
         return retailerMongoRepository.findRandomApparel()
                 .orElseThrow(() -> new NoSuchElementException("No cloth found in the database."));
     }
 
-    public ReviewState getRetailerStats() {
-        return getRetailerStats(null);
-    }
-
-    public ReviewState getRetailerStats(String retailerIdStr){
+    public ReviewState getRetailerStats(String retailerIdStr) {
         ObjectId retailerId = new ObjectId(retailerIdStr);
         return clothMongoRepository.getAverageRatingAndReviewRetailer(retailerId)
                 .orElseThrow(() -> new RuntimeException("Retailer not found or no reviews"));
@@ -158,7 +150,7 @@ public class CustomerService {
     public List<String> findTopLikedClothsByCustomerId(String customerId) {
         return customerNeo4jRepository.findTopLikedClothsByCustomerId(customerId);
     }
-    public List<String>  findTopClothsForTopRetailers(String customerId) {
+    public List<String> findTopClothsForTopRetailers(String customerId) {
         return customerNeo4jRepository.findTopClothsForTopRetailers(customerId);
     }
 
@@ -170,4 +162,44 @@ public class CustomerService {
         }
         return results;
     }
-}
+    public List<ClothFollowLike> TopLikedClothesByFollowers(String customerId) {
+        return clothNeo4jRepository.findTopLikedClothesByFollowers(customerId);
+    }
+
+    public boolean deleteCustomerAccountByEmail(String email) {
+        Long deletedCount = customerMongoRepository.deleteByEmail(email);
+        return deletedCount > 0;
+    }
+
+    @Transactional
+    public void deleteCustomerNode(String propertyId) {
+        Optional<CustomerNeo4j> customer = customerNeo4jRepository.findById(propertyId);
+        if (customer.isPresent()) {
+            customerNeo4jRepository.deleteCustomerByPropertyId(propertyId);
+
+        } else {
+            System.out.println("node not deleted!");
+        }
+    }
+    public boolean deleteRetailerAccountByEmail(String email) {
+        Long deletedCount = retailerMongoRepository.deleteByEmail(email);
+        return deletedCount > 0;
+    }
+
+    @Transactional
+    public void deleteRetailerNode(String propertyId) {
+        Optional<RetailerNeo4j> retailer = retailerNeo4jRepository.findById(propertyId);
+        if (retailer.isPresent()) {
+            customerNeo4jRepository.deleteCustomerByPropertyId(propertyId);
+        } else {
+            System.out.println("node not deleted!");
+        }
+    }
+
+    public List<BrandPopularity> getPopularBrands() {
+        return clothMongoRepository.findPopularBrands();
+    }
+    public List<TopLikedCloth> getTopLikedCloths() {
+        return clothNeo4jRepository.findTop5LikedCloths();
+    }
+    }

@@ -1,6 +1,6 @@
 package it.unipi.apparelspotter.apparel.Repository.mongo;
 
-import it.unipi.apparelspotter.apparel.model.dot.*;
+import it.unipi.apparelspotter.apparel.model.dto.*;
 import it.unipi.apparelspotter.apparel.model.mongo.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Aggregation;
@@ -49,14 +49,6 @@ public interface ClothMongoRepository extends MongoRepository<ClothMongo, String
     })
     Integer getNumberOfReviewsByClothId(ObjectId clothId);
 
-  //  @Query(fields = "{ 'id': 1, 'Category': 1, 'Type': 1, 'Size': 1, 'item_name': 1, 'Brand': 1, 'price': 1, 'Image url': 1 }")
-   // ClothMongoDTO findClothDetailsById(ObjectId clothId);
-
-    //@Query(value = "{'_id': ?0}", fields = "{'Category': 1}")
-   // String  findCategoryByClothId(ObjectId clothId);
-
-    //@Query(value = "{ '_id': ?0 }", fields = "{ 'Category': 1, '_id': 0 }") // Exclude _id from the result
-    //Optional<ClothMongoDTO> findCategoryByClothId(ObjectId id);
     @Aggregation(pipeline = { "{ $sample: { size: 1 } }" })
     Optional<ClothMongo> findRandomCloth();
     @Aggregation(pipeline = {
@@ -76,9 +68,16 @@ public interface ClothMongoRepository extends MongoRepository<ClothMongo, String
             "{ $project: { '_id': 1, 'avgRating': 1, 'reviewCount': 1 } }" // Include fields in the project stage for DTO
     })
     List<ClothIds> findTopRatedClothes();
-    interface ClothProjection {
-        String getId();
-    }
-
+    @Aggregation(pipeline = {
+            "{ $unwind: '$Reviews' }",
+            "{ $match: { 'Reviews.Rating': { $gt: 4 } } }",
+            "{ $group: { _id: '$Brand', averageRating: { $avg: '$Reviews.Rating' }, reviewCount: { $sum: 1 } } }",
+            "{ $match: { averageRating: { $gt: 4 } } }",
+            "{ $project: { brand: '$_id', averageRating: 1, reviewCount: 1 } }", // Rename _id to brand
+            "{ $sort: { reviewCount: -1 } }",
+            "{ $limit: 5 }"
+    })
+    List<BrandPopularity> findPopularBrands();
 
 }
+

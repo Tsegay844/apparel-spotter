@@ -7,11 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "customers")
 
-@Getter // Generates all the getters
-@Setter // Generates all the setters
-// Generates an all-args constructor
-@EqualsAndHashCode // Generates equals and hashCode methods
-@ToString // Generates toString method
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -19,10 +19,11 @@ public class CustomerPage {
     private  final Suggestions suggestions;
     private final FindByPreference findByPreference;
     private  final Popularity popularity;
+    private  final Profile profile;
     private Auth auth;
     private final Scanner scanner;
     @Autowired
-    public CustomerPage(@Lazy Popularity popularity, @Lazy FindByPreference findByPreference, @Lazy Suggestions suggestions, @Lazy BrowseApparelShop browseApparelShop, @Lazy BrowseCloth browseCloth,@Lazy NearByApparelShops nearByApparelShops, AuthService authService, Auth auth, CustomerService customerService) {
+    public CustomerPage(@Lazy Profile profile, @Lazy Popularity popularity, @Lazy FindByPreference findByPreference, @Lazy Suggestions suggestions, @Lazy BrowseApparelShop browseApparelShop, @Lazy BrowseCloth browseCloth, @Lazy NearByApparelShops nearByApparelShops, AuthService authService, Auth auth, CustomerService customerService) {
         this.authService = authService;
         this.customerService = customerService;
         this.auth=auth;
@@ -32,6 +33,7 @@ public class CustomerPage {
         this.findByPreference=findByPreference;
         this.popularity=popularity;
         this.suggestions = suggestions;
+        this.profile = profile;
         this.scanner = new Scanner(System.in);
     }
 public void customerpage(){
@@ -43,9 +45,10 @@ public void customerpage(){
     System.out.println("3. Find cloths by preferences");
     System.out.println("4. Browse apparel");
     System.out.println("5. Nearby apparel shops");
-    System.out.println("6. Popular Retailers");
-    System.out.println("7. Popular Brands");
-    System.out.println("8. Top like cloths");
+   // System.out.println("6. Popular Retailers");
+    System.out.println("6. Popular Brands");
+    System.out.println("7. Top like cloths");
+    System.out.println("8. View your profile");
     System.out.println("9. Edit your profile");
     System.out.println("10. Delete your profile");
     System.out.println("11. log-out");
@@ -80,12 +83,15 @@ public void customerpage(){
             topLikedCloths();
             break;
         case 8:
-            EditProfile();
+            viewProfile();
             break;
         case 9:
-           DeleteProfile();
+            EditProfile();
             break;
         case 10:
+            DeleteProfile();
+            break;
+        case 11:
             LogOut();
             break;
         default:
@@ -181,7 +187,16 @@ public void customerpage(){
     public void  EditProfile(){
         System.out.println();
         System.out.println("\u001B[1mEdit your profile\u001B[0m");
+        profile.editProfile();
         System.out.println("**************************************");
+        Closing();
+    }
+    public void  viewProfile(){
+        System.out.println();
+        System.out.println("\u001B[1mEdit your profile\u001B[0m");
+        profile.viewProfile();
+        System.out.println("**************************************");
+        Closing();
     }
     public void  DeleteProfile(){
         System.out.println();

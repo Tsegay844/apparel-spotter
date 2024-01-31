@@ -1,5 +1,6 @@
 package it.unipi.apparelspotter.apparel.Repository.mongo;
 
+import it.unipi.apparelspotter.apparel.model.mongo.CustomerMongo;
 import it.unipi.apparelspotter.apparel.model.mongo.RetailerMongo;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.Aggregation;
@@ -21,6 +22,7 @@ public interface RetailerMongoRepository extends MongoRepository <RetailerMongo,
     @Aggregation(pipeline = { "{ $sample: { size: 1 } }" })
     Optional<RetailerMongo> findRandomApparel();
     Long deleteByEmail(String email);
+    Optional<RetailerMongo> findById(ObjectId id);
 
 
 

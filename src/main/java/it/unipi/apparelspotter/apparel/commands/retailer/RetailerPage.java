@@ -18,15 +18,17 @@ public class RetailerPage {
     private final Statistics statistics;
     private final ClothList clothlist;
     private final Scanner scanner;
+    private final ProfileRtailer profileRtailer;
     private Auth auth;
 
     @Autowired
-    public RetailerPage(@Lazy Statistics statistics,@Lazy ClothList clothlist, AuthService authService, @Lazy Auth auth, Postcloth postcloth, CustomerPage customerPage, CustomerService customerService) {
+    public RetailerPage(@Lazy ProfileRtailer profileRtailer, @Lazy Statistics statistics, @Lazy ClothList clothlist, AuthService authService, @Lazy Auth auth, Postcloth postcloth, CustomerPage customerPage, CustomerService customerService) {
         this.authService = authService;
         this.statistics=statistics;
         this.clothlist=clothlist;
         this.customerService = customerService;
         this.postcloth=postcloth;
+        this.profileRtailer = profileRtailer;
         this.auth=auth;
         this.scanner = new Scanner(System.in);
     }
@@ -37,9 +39,10 @@ public class RetailerPage {
         System.out.println("1. Post cloth");
         System.out.println("2. View your statistics");
         System.out.println("3. View your list of cloths");
-        System.out.println("4. Edit your profile");
-        System.out.println("5. Delete your profile");
-        System.out.println("6. Log-out");
+        System.out.println("4. View your profileRtailer");
+        System.out.println("5. Edit your profileRtailer");
+        System.out.println("6. Delete your profileRtailer");
+        System.out.println("7. Log-out");
         System.out.print("Enter your choice (0 to exit): ");
         int choice = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
@@ -59,12 +62,15 @@ public class RetailerPage {
                 listOfYourCloths();
                 break;
             case 4:
-                EditProfile();
+                ViewProfile();
                 break;
             case 5:
-                DeleteProfile();
+                EditProfile();
                 break;
             case 6:
+                DeleteProfile();
+                break;
+            case 7:
                 LogOut();
                 break;
             default:
@@ -99,14 +105,20 @@ public class RetailerPage {
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         Closing();
     }
-    public void  EditProfile(){
-        System.out.println("\u001B[1mEdit your profile\u001B[0m");
-        DeleteProfile();
+    public void  ViewProfile(){
+        System.out.println("\u001B[1mEdit your profileRtailer\u001B[0m");
+        profileRtailer.viewProfile();
         System.out.println("**************************************");
-
+        Closing();
+    }
+    public void  EditProfile(){
+        System.out.println("\u001B[1mEdit your profileRtailer\u001B[0m");
+        profileRtailer.editProfile();
+        System.out.println("**************************************");
+        Closing();
     }
     public void  DeleteProfile(){
-        System.out.println("\u001B[1mYou are deleting your profile\u001B[0m");
+        System.out.println("\u001B[1mYou are deleting your profileRtailer\u001B[0m");
         deleteProfile();
         System.out.println("**************************************");
         auth.performAction();
@@ -115,7 +127,6 @@ public class RetailerPage {
         auth.performAction();
 
     }
-
     public void Closing(){
         System.out.print("Enter Your choice (1 to continue, 2 to back): ");
         int input = scanner.nextInt();

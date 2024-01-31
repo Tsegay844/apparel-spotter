@@ -122,7 +122,14 @@ public class CustomerService {
         customer.getLikedCloths().add(cloth);
         customerNeo4jRepository.save(customer);
     }
+    public Optional<RetailerMongo> findRetailerByObId(ObjectId _id) {
 
+        return retailerMongoRepository.findById(_id);
+    }
+    public Optional<CustomerMongo> findCustomerById(ObjectId _id) {
+
+        return customerMongoRepository.findById(_id);
+    }
     public Optional<ClothMongo> findClothById(ObjectId _id) {
 
         return clothMongoRepository.findById(_id);
